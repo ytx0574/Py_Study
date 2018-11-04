@@ -5,4 +5,4 @@ value = True
 value1 = 55 % 10 == 1
 
 
-print x, binary, value1, value
+print x, binary, value1, value, "\n", 989
