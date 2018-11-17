@@ -1,0 +1,27 @@
+
+
+
+global 标记全局变量, 可在函数内部修改值.  不同其他语言, global声明必须是已经声明过的变量.(在你需要修改值得地方进行声明)
+
+exec 直接把字符串当做pyton的代码执行
+
+with-as 快速处理异常, 类似try: finally:的操作  with所求值得对象必须有__enter__()和__exit(self, type, value, trace)__函数.
+
+is 与==同理
+
+lambda 匿名函数. 类似代码块  如 get_sum = lambda x, y, z: x + y + z
+
+pass 空语句, 用于保持程序的完整性, 占位
+
+
+try: except ExceptionType, ExceptionType: else:
+try: except ExceptionType, Argument: else:
+try: finally:
+
+with 变量的别名
+yield
+
+
+
+
+

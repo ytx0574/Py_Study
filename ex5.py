@@ -9,3 +9,6 @@ print my_name, age, height, weight
 print "my_weight = %.2f" % weight, "身高 = %d", height
 
 print "name = %s, age = %d %d" % (my_name, age, 987)
+
+
+CAONIMA = "caonima_str"
