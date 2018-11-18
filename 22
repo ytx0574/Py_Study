@@ -5,7 +5,8 @@ global 标记全局变量, 可在函数内部修改值.  不同其他语言, glo
 
 exec 直接把字符串当做pyton的代码执行
 
-with-as 快速处理异常, 类似try: finally:的操作  with所求值得对象必须有__enter__()和__exit(self, type, value, trace)__函数.
+with-as 快速处理异常, 类似try: finally:的操作  with所求值得对象必须有__enter__()和__exit(self, type, value, trace)__函数.  用法上面有点类似swift中的 if let 声明
+
 
 is 与==同理
 
@@ -19,7 +20,15 @@ try: except ExceptionType, Argument: else:
 try: finally:
 
 with 变量的别名
-yield
+yield  一个带有yield的函数就是一个generator.  调用的时候看起像个函数调用, 其实是生成一个generator对象, 而普通的函数调用则是返回它的返回值.
+当对其使用for循环的时候, 其实内部调用为next(). 当执行到yield时, 就会被中断, 返回迭代值. yield可以让一个函数拥有迭代器的能力, 因为自动保留上一次的值, 所以资源上消耗不大
+
+from  inspect import  isgeneratorfunction
+isgeneratorfunction(fab) 通过该函数判断是否为generator
+
+import types
+isinstance(fab, Iterable) 判断是否为类的实例
+
 
 
 

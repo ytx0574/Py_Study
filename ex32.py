@@ -62,8 +62,9 @@ else:
     print "no thing"
     fh.close()
 
+
+fh = open('/Users/johnson/Desktop/MMM.TXT', 'r')
 try:
-    fh = open('/Users/johnson/Desktop/MMM.TXT', 'r')
     fh.write("MMMMMMMMM")
 except IOError, (argument, argument1):
 
@@ -71,8 +72,6 @@ except IOError, (argument, argument1):
 finally:
     print "no thing"
     fh.close()
-
-
 def exceptionFunc():
     if False:
         raise RuntimeError("我抛出异常")
@@ -83,6 +82,11 @@ try:
     exceptionFunc()
 except TypeError, (arg):
     print "xxx", arg
-except Exception:
+except Exception, value:
+    print value
+
+else:
+    pass
+
 
 
