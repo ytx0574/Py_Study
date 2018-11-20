@@ -47,7 +47,8 @@ class Object(object):
         print("object_test")
 
 
-    def class hello():
+    def hello():
+        pass
 
 
 
