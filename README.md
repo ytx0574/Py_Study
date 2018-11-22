@@ -89,3 +89,7 @@ dict()	hex()	object()	slice()
 dir()	id()	oct()	sorted()
 
 
+
+__name__ 特殊变量函数(双下划线开头) 如果改module从其他地方导入, __name__ != "__main__"
+_private 私有变量函数(单下划线开头). 规范上定义, 但是还是可以访问到的
+没有下划线(public变量/函数).

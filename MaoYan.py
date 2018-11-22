@@ -2,18 +2,11 @@
 
 import requests
 import re
-<<<<<<< HEAD
-=======
 import json
->>>>>>> a480087b72253df63ce5988c4093e47c9a43f064
 
 from requests.exceptions import RequestException
 from multiprocessing import Pool
 
-<<<<<<< HEAD
-
-headers = {'User-Agent': 'Mozilela/5.0 '}
-=======
 # 参考文章地址:
 '''
 https://mp.weixin.qq.com/s?__biz=MzA5MzY4NTQwMA==&mid=2651003388&idx=1&sn=d70ff361d83ee3d0ba14fa4a814721f4&chksm=8badaa0bbcda231d97f95fdae603c54da46b01e66dd438cf6914c404abf18caac5a91ac1a99b&mpshare=1&scene=23&srcid=0408LXS1WXKuKj18eKQVqnB2%23rd
@@ -30,30 +23,10 @@ headers = {
     'Connection': 'keep-alive',
 }
 
->>>>>>> a480087b72253df63ce5988c4093e47c9a43f064
 
 # 构造下载器
 def get_one_page(url):
     try:
-<<<<<<< HEAD
-        res = requests.get(url, headers = headers)
-        if res.status_code == 200:
-            return res.text
-        else:
-            return None
-
-    except RequestException:
-        return None
-
-# 构造html解析器
-def parse_one_page(html):
-    regex = """
-    <dd>.*?board-index.*?>(\d+)</i>.*?data-src="(.*?)".*?name"><a
-    .*?>(.*?)</a>.*?star">(.*?)</p>.*?releasetime">(.*?)</p>
-    .*?integer">(.*?)</i>.*?fraction">(.*?)</i>.*?</dd>',re.S
-    """
-    pattern = re.compile(regex)
-=======
         res = requests.get(url, headers=headers)
         if res.status_code == 200:
             return res.text
@@ -71,35 +44,21 @@ def parse_one_page(html):
     regex = '<dd>.*?board-index.*?>(\d+)</i>.*?data-src="(.*?)".*?name"><a' + '.*?>(.*?)</a>.*?star">(.*?)</p>.*?releasetime">(.*?)</p>' + '.*?integer">(.*?)</i>.*?fraction">(.*?)</i>.*?</dd>'
 
     pattern = re.compile(regex, re.S)
->>>>>>> a480087b72253df63ce5988c4093e47c9a43f064
     items = re.findall(pattern, html)
 
     for item in items:
         yield {
-<<<<<<< HEAD
-            'index': items[0],
-            'image': items[1],
-            'title': items[2],
-            'actor': items[3].strip()[3:],
-            'time': items[4].strip()[5:],
-            'score': items[5] + items[6]
-=======
             'index': item[0],
             'image': item[1],
             'title': item[2],
             'actor': item[3].strip()[3:],
             'time': item[4].strip()[5:],
             'score': item[5] + item[6]
->>>>>>> a480087b72253df63ce5988c4093e47c9a43f064
         }
 
 
 # 构造数据存储器
 def write_to_file(content):
-<<<<<<< HEAD
-    with open('result.txt', 'a', encoding = 'utf-8') as file:
-        file.write(json.dumps(content, ensure_ascii = False) + '\n')
-=======
     with open('MaoYan.txt', 'a') as file:
         json_str = json.dumps(content)
         # Unicode编码的中文先给转为中文, 然后再已utf-8的形式写入文件
@@ -108,23 +67,16 @@ def write_to_file(content):
 
         print('写入文件: %r' % json_str)
         file.write(json_str)
->>>>>>> a480087b72253df63ce5988c4093e47c9a43f064
         file.close()
 
 
 def main(offset):
     url = 'http://maoyan.com/board/4?offset=' + str(offset)
     html = get_one_page(url)
-<<<<<<< HEAD
-    for item in parse_one_page(html):
-        print item
-        write_to_file(item)
-
-=======
     list = parse_one_page(html)
 
-    print(html)
-    print(list)
+    # print(html)
+    # print(list)
     for item in list:
         # print item
         write_to_file(item)
@@ -132,16 +84,10 @@ def main(offset):
 
 print(__name__)
 
->>>>>>> a480087b72253df63ce5988c4093e47c9a43f064
 if __name__ == '__main__':
     p = Pool()
     p.map(main, [i * 10 for i in range(10)])
 
-<<<<<<< HEAD
-
-
-=======
 with open('MaoYan.txt', 'r') as file:
     print 'file read>>>>>> ' + file.read()
     file.close()
->>>>>>> a480087b72253df63ce5988c4093e47c9a43f064
