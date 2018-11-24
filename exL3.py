@@ -50,7 +50,7 @@ print l1
 # 简易的ORM实现
 
 class Filed(object):
-    def __int__(self, name, column_type):
+    def __init__(self, name, column_type):
         self.name = name
         self.column_type = column_type
 
@@ -58,9 +58,9 @@ class Filed(object):
         return '<%s %s>' % (self.__class__.__name__, self.name)
 
 
-class StringFiled(Filed):
+class StringField(Filed):
     def __init__(self, name):
-        super(StringFiled, self).__init__(name, 'varchar(222)')
+        super(StringField, self).__init__(name, 'varchar(222)')
 
 class IntegerField(Filed):
     def __init__(self, name):
@@ -82,8 +82,10 @@ class ModelMetaclass(type):
         return type.__new__(cls, name, bases, attrs)
 
 class Model(dict):
-    def __init__(self):
-        super(Model, self).__init__(**kw)
+    __metaclass__ = ModelMetaclass
+    
+    def __init__(self, **kwargs):
+        super(Model, self).__init__(**kwargs)
 
     def __getattr__(self, key):
         try:
@@ -101,20 +103,20 @@ class Model(dict):
         for k, v in self.__mapping__.iteritems():
             fields.append(v.name)
             params.append('?')
-            args.append(getattr(self, k, None))
+            args.append(str(self[k]))
 
-        sql = 'insert into %s (%s) values (%s)' % (self.__table__, ','.join(fields), ','.join(params))
+        sql = 'insert into %s (%s) values (%s)' % (self.__table__, ','.join(fields), ','.join(args))
         print('SQL: %s' % sql)
         print('args: %s' % args)
 
 
 class UserJ(Model):
-    uid = IntegerField('id')
+    id = IntegerField('id')
     name = StringField('username')
     email = StringField('email')
     password = StringField('password')
 
-u = UserJ(id = 123, name = 'Johnson', email = 'ytx0573@gmail.com', password = '88888')
+u = UserJ(id = 11, name = 'Johnson', email = 'ytx0573@gmail.com', password = '88888')
 u.save()
 
 
