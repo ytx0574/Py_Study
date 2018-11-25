@@ -75,6 +75,7 @@ class ModelMetaclass(type):
             if isinstance(v, Filed):
                 mapping[k] = v
         for k in mapping.iterkeys():
+            # 从字典移除
             attrs.pop(k)
 
         attrs['__table__'] = name

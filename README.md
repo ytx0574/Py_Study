@@ -116,3 +116,6 @@ __contains__  判断是否包含.   'xx' in xx
 
 
 py2没有固定的枚举. 普通枚举可以使用Enum之家定义, 但是内部key只能为字符串, 并且可重复. 自定义枚举继承Enum即可. @unique字段没搞懂.
+
+__metaclass__, 指定类的元类.  metaclass为类添加一些行为, 类似oc的category. 不同oc的是, 这里是通过metaclass来实现
+metaclass类继承自type, 并且以Metaclass结尾. py2和3指定metaclass的方式不一样.
