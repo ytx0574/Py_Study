@@ -13,14 +13,12 @@
 #import "PushServices.h"
 #import <RongIMLib/RongIMLib.h>
 #import "RCHBMessage.h"
-#import "Account.h"
 #import "AppRemoteConfig.h"
 
 @implementation HTTPHook
 
 + (void)load
 {
-    
     HTTPHeaderField *header = [HTTPHeaderField instance];
 
 
@@ -66,7 +64,7 @@
 
 
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:kRemoteConfigJoinChatRoomSuccessNotification object:nil] subscribeNext:^(NSNotification * _Nullable x) {
-        [[APIClient sharedManager] postUserSingWithSuccess:nil failure:nil];
+        [UserInfoStatus isLoginStatus] ? [[APIClient sharedManager] postUserSingWithSuccess:nil failure:nil] : nil;
     }];
 }
 
