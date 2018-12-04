@@ -14,6 +14,7 @@
 #import <RongIMLib/RongIMLib.h>
 #import "RCHBMessage.h"
 #import "Account.h"
+#import "AppRemoteConfig.h"
 
 @implementation HTTPHook
 
@@ -21,6 +22,7 @@
 {
     
     HTTPHeaderField *header = [HTTPHeaderField instance];
+
 
     [AFJSONRequestSerializer aspect_hookSelector:@selector(setValue:forHTTPHeaderField:) withOptions:AspectPositionAfter usingBlock:^(id<AspectInfo> info) {
         AFHTTPRequestSerializer *requestSerializer = [info instance];
@@ -62,7 +64,10 @@
         }
     }];
 
-;
+
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:kRemoteConfigJoinChatRoomSuccessNotification object:nil] subscribeNext:^(NSNotification * _Nullable x) {
+        [[APIClient sharedManager] postUserSingWithSuccess:nil failure:nil];
+    }];
 }
 
 + (instancetype)shareInstance;
