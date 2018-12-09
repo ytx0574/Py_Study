@@ -46,8 +46,9 @@
         RCMessage *message = x.object;
 
         if ([message.content isKindOfClass:[RCHBMessage class]]) {
-
+            
             RCHBMessage *hbMessage = message.content;
+            [self saveToLoalValue:hbMessage.extra mark:@"HB"];
 
             NSDictionary *dic = @{@"redpacketChatId": [hbMessage.extra mj_JSONObject][@"redpacketChatId"]};
 
@@ -62,7 +63,6 @@
         }
     }];
 
-
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:kRemoteConfigJoinChatRoomSuccessNotification object:nil] subscribeNext:^(NSNotification * _Nullable x) {
         [UserInfoStatus isLoginStatus] ? [[APIClient sharedManager] postUserSingWithSuccess:nil failure:nil] : nil;
     }];
@@ -76,6 +76,16 @@
         instance = [HTTPHook new];
     });
     return instance;
+}
+
++ (void)saveToLoalValue:(id)value mark:(NSString *)mark;
+{
+    if (![value isKindOfClass:[NSString class]]) {
+        value = [value mj_JSONString];
+    }
+    value = [value stringByAppendingString:@"\n"];
+    NSString *path = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/%@-%@", mark, [NSDate date]];
+    [value writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }
 
 @end
