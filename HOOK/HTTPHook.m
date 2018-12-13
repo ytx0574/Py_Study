@@ -21,7 +21,6 @@
 {
     HTTPHeaderField *header = [HTTPHeaderField instance];
 
-
     [AFJSONRequestSerializer aspect_hookSelector:@selector(setValue:forHTTPHeaderField:) withOptions:AspectPositionAfter usingBlock:^(id<AspectInfo> info) {
         AFHTTPRequestSerializer *requestSerializer = [info instance];
         NSArray *arguments = [info arguments];
@@ -46,19 +45,30 @@
         RCMessage *message = x.object;
 
         if ([message.content isKindOfClass:[RCHBMessage class]]) {
-            
             RCHBMessage *hbMessage = message.content;
-            [self saveToLoalValue:hbMessage.extra mark:@"HB"];
-
-            NSDictionary *dic = @{@"redpacketChatId": [hbMessage.extra mj_JSONObject][@"redpacketChatId"]};
-
-            [[APIClient sharedManager] postUserRedpacketStatus:dic Success:^(NSDictionary *respone) {
-                if (![dic[@"redpacketStatus"] isEqualToString:@"02"]) {
-
-                    [[APIClient sharedManager] postUserReceiveRedpacket:@{@"redpacketChatId": dic[@"redpacketChatId"]} Success:^(NSDictionary *respone) {
-                        NSLog(@"👍bb: %@", respone);
-                    } failure:nil];
-                }
+            
+            NSDictionary *parameters = @{@"redpacketChatId": [hbMessage.extra mj_JSONObject][@"redpacketChatId"]};
+            //获取红包状态
+            [[APIClient sharedManager] postUserRedpacketStatus:parameters Success:^(NSDictionary *respone) {
+                
+                //抢红包
+                [[APIClient sharedManager] postUserReceiveRedpacket:parameters Success:^(NSDictionary *respone) {
+                    NSLog(@"👍bb: %@", respone);
+                } failure:nil];
+                
+            } failure:nil];
+            
+            //获取抢包的状态
+            [[APIClient sharedManager] postserRedpacketList:parameters Success:^(NSDictionary *respone) {
+                NSString *redPacketListStr = [respone mj_JSONString];
+                
+                NSString *path = [NSHomeDirectory() stringByAppendingString:@"/Documents/log"];
+                NSMutableString *str = [NSMutableString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil] ?: [NSMutableString new];
+                
+                [str appendString:redPacketListStr];
+                [str appendString:@"\n\n"];
+                
+                [str writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
             } failure:nil];
         }
     }];
