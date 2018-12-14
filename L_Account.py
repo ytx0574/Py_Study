@@ -1,9 +1,9 @@
 
 
 import random
-import string
 import hashlib
 import json
+import biplist
 
 
 def randomAccount():
@@ -16,7 +16,6 @@ def randomAccount():
     return ''.join(sa)
 
 
-
 l = []
 md5 = hashlib.md5()
 for i in range(20):
@@ -27,4 +26,16 @@ for i in range(20):
 
     l.append({account: account_md5})
 
-print json.dumps(l)
+json_str = json.dumps(l)
+print(json_str)
+
+account_save_path = '/Users/johnson/Desktop/' + randomAccount() + '.plist'
+biplist.writePlist(l, account_save_path, binary=False)
+
+
+# f = open('/Users/johnson/Desktop/ccccccc.txt', 'w')
+# f.write(json_str)
+# f.close()
+
+
+
