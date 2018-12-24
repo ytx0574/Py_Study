@@ -125,3 +125,8 @@ metaclass类继承自type, 并且以Metaclass结尾. py2和3指定metaclass的�
 
 
 r 前缀就可以不用转义  比如 r'222\aa',中间的\就不用转义
+
+
+
+python的可变参数和关键字参数(*args **kw)
+https://www.jianshu.com/p/98f7e34845b5

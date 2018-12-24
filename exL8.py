@@ -1,5 +1,9 @@
 # coding:utf-8
-from gevent import monkey; monkey.patch_socket()
+from gevent import monkey;
+monkey.patch_socket()
+monkey.patch_ssl()
+
+import os
 import gevent
 
 def f(n):
@@ -24,8 +28,16 @@ def ff(url):
     data = re.read()
     print('%d bytes received from %s' % (len(data), url))
 
+    url = url.replace("https://", '')
+    url = url.replace('/', '')
+
+    path = os.path.dirname(__file__) + "/" + url + ".html"
+    f = open(path, 'w')
+    f.write(data)
+    print path
+
 gevent.joinall([
-    gevent.spawn(ff, 'https://www.python.com/'),
+    gevent.spawn(ff, 'https://www.youtube.com/'),
     gevent.spawn(ff, 'https://www.jd.com/'),
     gevent.spawn(ff, 'https://github.com/')
 ])
