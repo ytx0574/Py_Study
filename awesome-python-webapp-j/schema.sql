@@ -1,15 +1,18 @@
-drop database if exists awesome;
 
-create databse awesome;
 
-use awesome;
+-- init database
+drop database if exists awesomej;
 
-grant select, insert, update, delete, on awesome.* to 'root'@'localhost' identified by 'root';
+create database awesomej;
+
+use awesomej;
+
+grant select, insert, update, delete on awesomej.* to 'root'@'localhost';
 
 create table users (
   `id` varchar(50) not null,
   `email` varchar(50) not null,
-  `passworkd` varchar(50) not null,
+  `password` varchar(50) not null,
   `admin` bool not null,
   `name` varchar(50) not null,
   `image` varchar(500) not null,
@@ -17,7 +20,7 @@ create table users (
   unique key `inx_email` (`email`),
   key `idx_create_at` (`create_at`),
   primary key (`id`)
-) emgine=innodb default chatset=utf8;
+) engine=innodb default charset=utf8;
 
 create table blogs (
 `id` varchar(50) not null,
@@ -46,4 +49,4 @@ create table comments (
 
 
 
-insert into users (`id`, `email`, `password`, `admin`, `name`, `created_at`) values ('0010018336417540987fff4508f43fbaed718e263442526000', 'admin@example.com', '5f4dcc3b5aa765d61d8327deb882cf99', 1, 'Administrator', 1402909113.628);
+insert into users (`id`, `email`, `password`, `admin`, `name`, `image`, `create_at`) values ('0010018336417540987fff4508f43fbaed718e263442526000', 'admin@example.com', '5f4dcc3b5aa765d61d8327deb882cf99', 1, 'Administrator', 'imagej|imagej|imagej|imagej|imagej', 1402909113.628);

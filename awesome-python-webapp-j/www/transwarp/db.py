@@ -47,12 +47,12 @@ class _LasyConnection(object):
     def __init__(self):
         self.connection = None
 
-    def curtor(self):
+    def cursor(self):
         if self.connection is None:
             connection = engine.connect()
             logging.info('open connection <%s>...' % hex(id(connection)))
             self.connection = connection
-        return self.connection.curtor()
+        return self.connection.cursor()
 
     def commit(self):
         self.connection.commit()
@@ -86,7 +86,7 @@ class _DbCtx(threading.local):
         self.connection = None
 
     def cursor(self):
-        return self.connection.curtor()
+        return self.connection.cursor()
 
 
 _db_ctx = _DbCtx()
@@ -98,7 +98,7 @@ class _Engine(object):
         self._connect = connect
 
     def connect(self):
-        return self._connect
+        return self._connect()
 
 def create_engine(user, password, database, host='127.0.0.1', port=3306, **kw):
     import mysql.connector
@@ -110,9 +110,9 @@ def create_engine(user, password, database, host='127.0.0.1', port=3306, **kw):
     for k, v in defaults.iteritems():
         params[k] = kw.pop(k, v)
     params.update(kw)
-    params['beffered'] = True
+    params['buffered'] = True
     engine = _Engine(lambda: mysql.connector.connect(**params))
-    logging.info('Init mysal engine <%s>' % hex(id(engine)))
+    logging.info('Init mysal engine <%s> ok.' % hex(id(engine)))
 
 class _ConnectionCtx(object):
     def __enter__(self):

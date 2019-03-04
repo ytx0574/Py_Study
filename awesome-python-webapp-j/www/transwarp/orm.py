@@ -138,7 +138,7 @@ class ModelMetaclass(type):
 
         if not  primary_key:
             raise TypeError('Primary key not defined in class: %s' % name)
-        for k in mappingsk.iterkeys():
+        for k in mappings.iterkeys():
             attrs.pop(k)
 
         if not '__table__' in attrs:
@@ -180,12 +180,12 @@ class Model(dict):
 
     @classmethod
     def find_all(cls, *args):
-        L = db.select('select * from %s' % (cls.__table__))
+        L = db.select('select * from `%s`' % (cls.__table__))
         return [cls(**d) for d in L]
 
     @classmethod
     def find_by(cls, where, *args):
-        L = db.select('select * from %s %s' % (cls.__table__, where), *args)
+        L = db.select('select * fromselect * from %s %s' % (cls.__table__, where), *args)
         return [cls(**d) for d in L]
 
     @classmethod
